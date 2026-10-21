@@ -24,6 +24,6 @@
 
 ## Local Gates Executed
 
-- `python -m unittest discover -s tests -v`: 7 passed in 0.01s
+- `python -m unittest discover -s tests -v`: 8 passed in 0.01s
 - `python scripts/check_repo.py`: verified 13 required artifacts and 3-pillar priority contract
 - `.\go.ps1 -Check` and `.\go.ps1 -NoBrowser`: exit code 0; generated `out/latest/evaluation-report.json` and `out/latest/evaluation-report.md`

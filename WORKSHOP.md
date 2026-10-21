@@ -24,7 +24,7 @@ Open `docs\demo-console.html` in your browser and `out\baseline\evaluation-repor
 
 1. **Predict:** Look at `maya_dual_org` in `fixtures/enterprise-scenario.json`. She is a member of both `retail-digital` and `regulated-payments`. Because `Copilot cloud agent` is set to `Let organizations decide` at the enterprise level, `retail-digital` (`Enabled`) overrides `regulated-payments` (`Disabled`) under the **Least restrictive** rule.
 2. **Challenge:** What happens if the enterprise administrator changes `Policies for enterprise-assigned users` from `Disabled` to `Enabled` for `chloe_enterprise_direct`, while locking `Copilot cloud agent` to `Disabled everywhere` at the enterprise root?
-3. **Verify:** Run `python -m unittest discover -s tests -v` to confirm all 7 governance and security invariants pass.
+3. **Verify:** Run `python -m unittest discover -s tests -v` to confirm all 8 governance and security invariants pass.
 
 ---
 

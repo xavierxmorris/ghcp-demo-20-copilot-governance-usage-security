@@ -120,14 +120,16 @@ def evaluate_governance(scenario: dict[str, Any]) -> dict[str, Any]:
     model_results: list[dict[str, Any]] = []
     for model in ent["models"]:
         status = model["enterprise_status"]
-        if model["open_weight"]:
+        if status == "Enabled":
+            effective_status = "Enabled everywhere"
+        elif status == "Disabled":
+            effective_status = "Disabled everywhere"
+        elif model["open_weight"]:
             effective_status = "Disabled by default (open-weight model excluded from Default availability policy)"
         elif not model["data_retention_covered"]:
             effective_status = "Disabled by default (not covered by GitHub data retention agreement)"
         elif model["category"] == "preview":
             effective_status = "Disabled by default (pre-GA preview model ignores Default availability policy)"
-        elif status == "Enabled":
-            effective_status = "Enabled everywhere"
         elif status == "Delegate to organizations":
             org_outcomes = {
                 org_name: (
