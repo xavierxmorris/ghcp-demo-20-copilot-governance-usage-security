@@ -20,6 +20,7 @@ REQUIRED_FILES = (
     ".github/copilot-instructions.md",
     "AGENTS.md",
     "fixtures/enterprise-scenario.json",
+    "docs/STEP-BY-STEP-ADMIN-GUIDE.md",
     "docs/DEEP-RESEARCH-BRIEF.md",
     "docs/DISCOVERY-QUESTIONS.md",
     "docs/demo-console.html",

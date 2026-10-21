@@ -46,6 +46,7 @@ python -m copilot_governance --out out\latest
 | Artifact | Purpose |
 | --- | --- |
 | [`RUN-SHEET.md`](RUN-SHEET.md) | Minute-by-minute **30-minute presenter script** (`00:00–12:00` Governance, `12:00–22:00` Usage/Admin, `22:00–30:00` Security/Audit) |
+| [`docs/STEP-BY-STEP-ADMIN-GUIDE.md`](docs/STEP-BY-STEP-ADMIN-GUIDE.md) | Click-by-click **UI & `gh api` operational runbook** for configuring every GitHub Copilot governance, reporting, billing, and security feature |
 | [`docs/demo-console.html`](docs/demo-console.html) | Self-contained **interactive HTML demo console** with persona simulator, cohort/reconciliation tables, content-exclusion tester, and question bank |
 | [`docs/DEEP-RESEARCH-BRIEF.md`](docs/DEEP-RESEARCH-BRIEF.md) | Sourced **deep-research reference** with exact API endpoints, policy matrices, and dated GitHub Docs citations |
 | [`docs/DISCOVERY-QUESTIONS.md`](docs/DISCOVERY-QUESTIONS.md) | **30 high-signal discovery & architecture questions** (with *Why ask*, *Red-flag answer*, and *Target architecture*) in 1 → 2 → 3 priority order |
