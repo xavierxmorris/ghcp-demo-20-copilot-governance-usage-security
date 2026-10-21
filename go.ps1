@@ -91,7 +91,7 @@ try {
         Write-Rule "Preflight & Unit Tests"
         & python -m unittest discover -s tests -v
         if ($LASTEXITCODE -ne 0) { throw "Unit tests failed." }
-        & python scripts\check_repo.py
+        & python (Join-Path $root 'scripts' 'check_repo.py')
         if ($LASTEXITCODE -ne 0) { throw "Repository contract check failed." }
         Write-Host ""
         Write-Host "  READY - All tests and 3-pillar priority contracts verified." -ForegroundColor Green
@@ -108,10 +108,11 @@ try {
     }
 
     Write-Rule "Generating Deterministic Evaluation Bundle"
-    & python -m copilot_governance --out (Join-Path $root "out\latest") | Out-Null
+    $outLatest = Join-Path (Join-Path $root 'out') 'latest'
+    & python -m copilot_governance --out $outLatest | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "Evaluation run failed." }
 
-    $consolePath = Join-Path $root "docs\demo-console.html"
+    $consolePath = Join-Path (Join-Path $root 'docs') 'demo-console.html'
     if (-not $NoBrowser) {
         Start-Process $consolePath | Out-Null
         Write-Note "Opened interactive console: docs\demo-console.html"
