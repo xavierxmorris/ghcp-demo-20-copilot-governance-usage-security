@@ -1,0 +1,543 @@
+{
+  "scenario_id": "aurorabank-ghec-2026-10",
+  "enterprise": {
+    "slug": "aurorabank-ghec",
+    "id": "E_kgDOAurora01",
+    "mode": "Enterprise Managed Users (EMU) + GHEC Data Residency",
+    "api_version": "2026-03-10",
+    "evaluation_date": "2026-10-22",
+    "default_policy_for_new_features": "Enabled everywhere",
+    "default_availability_for_released_models": "Let organizations decide",
+    "policies_for_enterprise_assigned_users": "Disabled",
+    "enterprise_policies": {
+      "Copilot Metrics API": "Let organizations decide",
+      "Suggestions matching public code": "Let organizations decide",
+      "Semantic indexing for non-GitHub repositories": "Let organizations decide",
+      "Allow members without a Copilot license to use Copilot code review in GitHub.com": "Let organizations decide",
+      "Copilot CLI": "Let organizations decide",
+      "The GitHub Copilot app": "Let organizations decide",
+      "Copilot cloud agent": "Let organizations decide",
+      "Copilot code review": "Unconfigured",
+      "MCP servers in Copilot": "Unconfigured",
+      "Restrict MCP access to registry servers": "Enabled everywhere",
+      "Copilot can search the web": "Disabled everywhere",
+      "Store local sessions in the Cloud": "Unconfigured",
+      "Restrict Copilot to data residency models": "Unconfigured"
+    },
+    "models": [
+      {
+        "id": "claude-sonnet-5.5",
+        "category": "ga_standard",
+        "enterprise_status": "Delegate to organizations",
+        "data_retention_covered": true,
+        "open_weight": false
+      },
+      {
+        "id": "gpt-6.1-sol",
+        "category": "ga_standard",
+        "enterprise_status": "Enabled",
+        "data_retention_covered": true,
+        "open_weight": false
+      },
+      {
+        "id": "deepseek-r1",
+        "category": "open_weight",
+        "enterprise_status": "Delegate to Default Policy",
+        "data_retention_covered": true,
+        "open_weight": true
+      },
+      {
+        "id": "claude-fable-5.1",
+        "category": "non_retention",
+        "enterprise_status": "Delegate to Default Policy",
+        "data_retention_covered": false,
+        "open_weight": false
+      },
+      {
+        "id": "gemini-next-preview",
+        "category": "preview",
+        "enterprise_status": "Unconfigured",
+        "data_retention_covered": true,
+        "open_weight": false
+      }
+    ]
+  },
+  "organizations": {
+    "retail-digital": {
+      "id": "O_retail_01",
+      "profile": "High-velocity digital channels",
+      "default_policy_for_new_features": "Enabled",
+      "default_availability_for_released_models": "Enabled",
+      "policies": {
+        "Copilot Metrics API": "Enabled",
+        "Suggestions matching public code": "Allowed",
+        "Semantic indexing for non-GitHub repositories": "Enabled",
+        "Allow members without a Copilot license to use Copilot code review in GitHub.com": "Enabled",
+        "Copilot CLI": "Enabled",
+        "The GitHub Copilot app": "Enabled",
+        "Copilot cloud agent": "Enabled"
+      },
+      "models": {
+        "claude-sonnet-5.5": "Delegate to default policy"
+      }
+    },
+    "regulated-payments": {
+      "id": "O_payments_02",
+      "profile": "PCI-DSS core payments & treasury",
+      "default_policy_for_new_features": "Disabled",
+      "default_availability_for_released_models": "Disabled",
+      "policies": {
+        "Copilot Metrics API": "Disabled",
+        "Suggestions matching public code": "Blocked",
+        "Semantic indexing for non-GitHub repositories": "Unconfigured",
+        "Allow members without a Copilot license to use Copilot code review in GitHub.com": "Disabled",
+        "Copilot CLI": "Disabled",
+        "The GitHub Copilot app": "Disabled",
+        "Copilot cloud agent": "Disabled"
+      },
+      "models": {
+        "claude-sonnet-5.5": "Delegate to default policy"
+      }
+    },
+    "billing-shell": {
+      "id": "O_shell_03",
+      "profile": "Central license-assignment shell org",
+      "default_policy_for_new_features": "Disabled",
+      "default_availability_for_released_models": "Disabled",
+      "policies": {
+        "Copilot Metrics API": "Enabled",
+        "Suggestions matching public code": "Blocked",
+        "Semantic indexing for non-GitHub repositories": "Disabled",
+        "Allow members without a Copilot license to use Copilot code review in GitHub.com": "Disabled",
+        "Copilot CLI": "Disabled",
+        "The GitHub Copilot app": "Disabled",
+        "Copilot cloud agent": "Disabled"
+      },
+      "models": {
+        "claude-sonnet-5.5": "Disabled"
+      }
+    }
+  },
+  "Personas": [
+    {
+      "user_id": 1001,
+      "login": "maya_dual_org",
+      "role": "Staff Principal Engineer (Dual-Org: retail-digital + regulated-payments)",
+      "seat_source": "organization",
+      "seat_orgs": ["retail-digital", "regulated-payments"],
+      "member_orgs": ["retail-digital", "regulated-payments"],
+      "external_enterprise_restrictive_locks": []
+    },
+    {
+      "user_id": 1002,
+      "login": "liam_payments_only",
+      "role": "Payments Core Engineer (regulated-payments, billed via billing-shell)",
+      "seat_source": "organization",
+      "seat_orgs": ["billing-shell"],
+      "member_orgs": ["billing-shell", "regulated-payments"],
+      "external_enterprise_restrictive_locks": []
+    },
+    {
+      "user_id": 1003,
+      "login": "chloe_enterprise_direct",
+      "role": "Platform Architect (Direct Enterprise-Assigned Seat)",
+      "seat_source": "enterprise_direct",
+      "seat_orgs": [],
+      "member_orgs": ["retail-digital"],
+      "external_enterprise_restrictive_locks": []
+    },
+    {
+      "user_id": 1004,
+      "login": "noah_contractor_multi_ent",
+      "role": "Partner Consultant (Licensed in aurorabank-ghec AND external-vendor-ent)",
+      "seat_source": "organization",
+      "seat_orgs": ["retail-digital"],
+      "member_orgs": ["retail-digital"],
+      "external_enterprise_restrictive_locks": ["Copilot CLI", "Copilot cloud agent"]
+    }
+  ],
+  "surface_policy_checks": [
+    {
+      "policy": "Copilot can search the web",
+      "surface": "Copilot cloud agent",
+      "expected_enforced": false,
+      "reason": "The 'Copilot can search the web' policy applies to IDEs and Copilot Chat in GitHub, not to Copilot cloud agent (which uses its own internet/firewall controls)."
+    },
+    {
+      "policy": "Suggestions matching public code",
+      "surface": "Copilot CLI",
+      "expected_enforced": false,
+      "reason": "Public code matching filter is supported in IDEs and annotate-mode cloud/3rd-party agents, not in Copilot CLI, the Copilot app, or Copilot code review."
+    },
+    {
+      "policy": "Restrict MCP access to registry servers",
+      "surface": "Copilot CLI",
+      "expected_enforced": true,
+      "reason": "Supported across IDEs, Copilot CLI, and the GitHub Copilot app."
+    },
+    {
+      "policy": "Content exclusion",
+      "surface": "IDE Agent Mode & Copilot CLI",
+      "expected_enforced": false,
+      "reason": "Per GitHub Docs ('Excluding content from GitHub Copilot'), GitHub Copilot CLI and Agent mode in Copilot Chat in IDEs do not support repository/organization content exclusion."
+    }
+  ],
+  "usage_and_reporting": {
+    "window_28d": {
+      "report_start_day": "2026-09-24",
+      "report_end_day": "2026-10-21",
+      "Licensed_seats": 6
+    },
+    "users_28d_activity": [
+      {
+        "user_id": 1001,
+        "user_login": "maya_dual_org",
+        "member_orgs": ["retail-digital", "regulated-payments"],
+        "team_slug": "ent:platform-architecture",
+        "qualifying_days_28d": {
+          "completions_or_ide_agent_edits": 18,
+          "cloud_agent": 6,
+          "code_review": 9,
+          "copilot_cli": 14,
+          "copilot_app": 4
+        },
+        "chat_only_days_28d": 2,
+        "ide_client_telemetry_enabled": true,
+        "server_side_active_today": true,
+        "used_cli_today": true,
+        "ai_credits_used": 42.5,
+        "prs_merged_28d": 19,
+        "median_time_to_merge_hours": 4.2,
+        "cli_customizations": {
+          "distinct_skill_use_count": 4,
+          "distinct_plugin_use_count": 2,
+          "skill_interactions": 28,
+          "plugin_interactions": 11,
+          "mcp_connection_attempts": 19
+        }
+      },
+      {
+        "user_id": 1002,
+        "user_login": "liam_payments_only",
+        "member_orgs": ["billing-shell", "regulated-payments"],
+        "team_slug": "ent:payments-core",
+        "qualifying_days_28d": {
+          "completions_or_ide_agent_edits": 15,
+          "cloud_agent": 0,
+          "code_review": 4,
+          "copilot_cli": 0,
+          "copilot_app": 0
+        },
+        "chat_only_days_28d": 5,
+        "ide_client_telemetry_enabled": true,
+        "server_side_active_today": true,
+        "used_cli_today": false,
+        "ai_credits_used": 14.0,
+        "prs_merged_28d": 12,
+        "median_time_to_merge_hours": 6.8,
+        "cli_customizations": {
+          "distinct_skill_use_count": 0,
+          "distinct_plugin_use_count": 0,
+          "skill_interactions": 0,
+          "plugin_interactions": 0,
+          "mcp_connection_attempts": 0
+        }
+      },
+      {
+        "user_id": 1003,
+        "user_login": "chloe_enterprise_direct",
+        "member_orgs": ["retail-digital"],
+        "team_slug": "ent:platform-architecture",
+        "qualifying_days_28d": {
+          "completions_or_ide_agent_edits": 12,
+          "cloud_agent": 0,
+          "code_review": 0,
+          "copilot_cli": 0,
+          "copilot_app": 0
+        },
+        "chat_only_days_28d": 3,
+        "ide_client_telemetry_enabled": false,
+        "server_side_active_today": true,
+        "used_cli_today": false,
+        "ai_credits_used": 8.5,
+        "prs_merged_28d": 9,
+        "median_time_to_merge_hours": 9.5,
+        "cli_customizations": {
+          "distinct_skill_use_count": 0,
+          "distinct_plugin_use_count": 0,
+          "skill_interactions": 0,
+          "plugin_interactions": 0,
+          "mcp_connection_attempts": 0
+        }
+      },
+      {
+        "user_id": 1004,
+        "user_login": "noah_contractor_multi_ent",
+        "member_orgs": ["retail-digital"],
+        "team_slug": "ent:retail-squad",
+        "qualifying_days_28d": {
+          "completions_or_ide_agent_edits": 1,
+          "cloud_agent": 0,
+          "code_review": 0,
+          "copilot_cli": 0,
+          "copilot_app": 0
+        },
+        "chat_only_days_28d": 11,
+        "ide_client_telemetry_enabled": true,
+        "server_side_active_today": false,
+        "used_cli_today": false,
+        "ai_credits_used": 3.2,
+        "prs_merged_28d": 4,
+        "median_time_to_merge_hours": 18.0,
+        "cli_customizations": {
+          "distinct_skill_use_count": 0,
+          "distinct_plugin_use_count": 0,
+          "skill_interactions": 0,
+          "plugin_interactions": 0,
+          "mcp_connection_attempts": 0
+        }
+      },
+      {
+        "user_id": 1005,
+        "user_login": "priya_cli_specialist",
+        "member_orgs": ["retail-digital"],
+        "team_slug": "ent:platform-architecture",
+        "qualifying_days_28d": {
+          "completions_or_ide_agent_edits": 0,
+          "cloud_agent": 5,
+          "code_review": 7,
+          "copilot_cli": 19,
+          "copilot_app": 0
+        },
+        "chat_only_days_28d": 0,
+        "ide_client_telemetry_enabled": true,
+        "server_side_active_today": false,
+        "used_cli_today": true,
+        "ai_credits_used": 31.0,
+        "prs_merged_28d": 16,
+        "median_time_to_merge_hours": 5.0,
+        "cli_customizations": {
+          "distinct_skill_use_count": 5,
+          "distinct_plugin_use_count": 3,
+          "skill_interactions": 41,
+          "plugin_interactions": 15,
+          "mcp_connection_attempts": 34
+        }
+      },
+      {
+        "user_id": 1006,
+        "user_login": "ethan_idle_seat",
+        "member_orgs": ["billing-shell"],
+        "team_slug": "ent:small-tiger-team",
+        "qualifying_days_28d": {
+          "completions_or_ide_agent_edits": 0,
+          "cloud_agent": 0,
+          "code_review": 0,
+          "copilot_cli": 0,
+          "copilot_app": 0
+        },
+        "chat_only_days_28d": 0,
+        "ide_client_telemetry_enabled": true,
+        "server_side_active_today": false,
+        "used_cli_today": false,
+        "ai_credits_used": 0.0,
+        "prs_merged_28d": 3,
+        "median_time_to_merge_hours": 21.0,
+        "cli_customizations": {
+          "distinct_skill_use_count": 0,
+          "distinct_plugin_use_count": 0,
+          "skill_interactions": 0,
+          "plugin_interactions": 0,
+          "mcp_connection_attempts": 0
+        }
+      }
+    ],
+    "teams_seated_counts": {
+      "ent:platform-architecture": 6,
+      "ent:payments-core": 8,
+      "ent:retail-squad": 5,
+      "ent:small-tiger-team": 3
+    },
+    "repos_1_day": [
+      {
+        "repository": "aurorabank-ghec/retail-checkout-ui",
+        "total_prs_created": 8,
+        "cca_prs_created": 3,
+        "cca_prs_merged": 2,
+        "ccr_prs_reviewed": 7,
+        "ccr_suggestions_applied": 14
+      },
+      {
+        "repository": "aurorabank-ghec/payments-settlement-engine",
+        "total_prs_created": 5,
+        "cca_prs_created": 0,
+        "cca_prs_merged": 0,
+        "ccr_prs_reviewed": 5,
+        "ccr_suggestions_applied": 9
+      }
+    ],
+    "ai_credit_budgets": {
+      "ai_credit_paid_usage_policy_enabled": true,
+      "enterprise_pool_remaining_usd": 45.0,
+      "shared_spending_budgets": {
+        "enterprise": { "limit_usd": 500.0, "consumed_usd": 460.0, "hard_stop": true },
+        "cost_center:AI-POWER-USERS": { "limit_usd": 100.0, "consumed_usd": 85.0, "hard_stop": false },
+        "cost_center:AI-STANDARD-USERS": { "limit_usd": 50.0, "consumed_usd": 48.0, "hard_stop": true }
+      },
+      "user_level_defaults": {
+        "multi_user_customer": { "limit_usd": 10.0, "hard_stop": true },
+        "multi_user_cost_center": {
+          "cost_center:AI-POWER-USERS": { "limit_usd": 50.0, "hard_stop": true },
+          "cost_center:AI-STANDARD-USERS": { "limit_usd": 15.0, "hard_stop": true }
+        },
+        "explicit_user_overrides": {
+          "maya_dual_org": { "limit_usd": 80.0, "hard_stop": true }
+        }
+      },
+      "budget_test_cases": [
+        {
+          "login": "maya_dual_org",
+          "cost_center": "cost_center:AI-POWER-USERS",
+          "user_consumed_usd": 46.0
+        },
+        {
+          "login": "priya_cli_specialist",
+          "cost_center": "cost_center:AI-POWER-USERS",
+          "user_consumed_usd": 31.0
+        },
+        {
+          "login": "liam_payments_only",
+          "cost_center": "cost_center:AI-STANDARD-USERS",
+          "user_consumed_usd": 14.0
+        },
+        {
+          "login": "chloe_enterprise_direct",
+          "cost_center": null,
+          "user_consumed_usd": 10.0
+        }
+      ]
+    }
+  },
+  "security_and_compliance": {
+    "content_exclusion": {
+      "organization_rules": {
+        "*": [
+          "**/*.pem",
+          "**/*.key",
+          ".env*"
+        ],
+        "https://github.com/aurorabank-ghec/payments-settlement-engine.git": [
+          "/src/hsm/**",
+          "/config/swift-routing/*.cfg"
+        ]
+      },
+      "repository_rules": {
+        "aurorabank-ghec/retail-checkout-ui": [
+          "/secrets/**",
+          "pci-cardholder-map.yaml"
+        ]
+      },
+      "access_probes": [
+        {
+          "repo": "aurorabank-ghec/payments-settlement-engine",
+          "path": "/src/hsm/pin_block.c",
+          "surface": "IDE Inline Completions",
+          "expect_blocked_by_exclusion": true
+        },
+        {
+          "repo": "aurorabank-ghec/payments-settlement-engine",
+          "path": "/src/hsm/pin_block.c",
+          "surface": "Copilot cloud agent",
+          "expect_blocked_by_exclusion": true
+        },
+        {
+          "repo": "aurorabank-ghec/payments-settlement-engine",
+          "path": "/src/hsm/pin_block.c",
+          "surface": "Copilot CLI local shell",
+          "expect_blocked_by_exclusion": false,
+          "compensating_control": "Enforce repository RBAC, local OS permissions, Copilot CLI hooks/sandbox, and secret scanning push protection."
+        },
+        {
+          "repo": "aurorabank-ghec/retail-checkout-ui",
+          "path": "/src/components/Cart.tsx",
+          "surface": "IDE Inline Completions",
+          "expect_blocked_by_exclusion": false
+        }
+      ]
+    },
+    "audit_log_events": [
+      {
+        "id": "evt_01",
+        "action": "copilot.cfb_seat_assignment_created",
+        "actor": "xavierxmorris",
+        "actor_is_agent": false,
+        "user": "maya_dual_org",
+        "created_at": "2026-10-01T09:00:00Z"
+      },
+      {
+        "id": "evt_02",
+        "action": "copilot.content_exclusion_changed",
+        "actor": "xavierxmorris",
+        "actor_is_agent": false,
+        "repo": "aurorabank-ghec/payments-settlement-engine",
+        "created_at": "2026-10-05T11:15:00Z"
+      },
+      {
+        "id": "evt_03",
+        "action": "pull_request.create",
+        "actor": "Copilot",
+        "actor_is_agent": true,
+        "agent_session_id": "012345a6-b7c8-9012-de3f-45gh678i9012",
+        "user": "maya_dual_org",
+        "repo": "aurorabank-ghec/retail-checkout-ui",
+        "created_at": "2026-10-20T14:22:10Z"
+      }
+    ],
+    "emu_usage_records": [
+      {
+        "event_id": "urec_9001",
+        "type": "request",
+        "user_id": 1001,
+        "enterprise_id": 77001,
+        "github_request_id": "ABCD:1234:567890:FEDCBA:67150001",
+        "endpoint": "/chat/completions",
+        "truncated": false,
+        "@timestamp": 1792506130000
+      },
+      {
+        "event_id": "urec_9002",
+        "type": "response",
+        "user_id": 1001,
+        "enterprise_id": 77001,
+        "github_request_id": "ABCD:1234:567890:FEDCBA:67150001",
+        "endpoint": "/chat/completions",
+        "truncated": false,
+        "@timestamp": 1792506134200
+      }
+    ],
+    "pr_security_gates": [
+      {
+        "pr_number": 108,
+        "author": "copilot-swe-agent[bot]",
+        "delegated_by": "maya_dual_org",
+        "secret_scanning_push_protection": "passed",
+        "codeql_analysis": "passed_after_autofix",
+        "dependency_review": "passed",
+        "copilot_code_review": "completed",
+        "human_approvals": 1,
+        "author_attempted_self_approval": false
+      },
+      {
+        "pr_number": 109,
+        "author": "copilot-swe-agent[bot]",
+        "delegated_by": "noah_contractor_multi_ent",
+        "secret_scanning_push_protection": "passed",
+        "codeql_analysis": "failed_high_severity_sql_injection",
+        "dependency_review": "passed",
+        "copilot_code_review": "completed",
+        "human_approvals": 0,
+        "author_attempted_self_approval": false
+      }
+    ]
+  }
+}
